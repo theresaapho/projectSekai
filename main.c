@@ -5,13 +5,13 @@
 
 int main() {
     int choice;
-    printf("Welcome to the program!\n");
+    printf("Welcome to Project Sekai!\n");
     printf("Choose an option:\n");
-    printf("1. Calculate Zodiac Sign and Personality\n");
-    printf("2. Calculate Matrix Determinant\n");
-    printf("3. Calculate Invertible Matrix\n");
-    printf("4. Calculate Tinh Menh\n");
-    printf("5. Calculate Vo Chong Compatibility\n");
+    printf("\033[3;1m1. Calculate Zodiac Sign and Personality[0m\n");
+    printf("\033[3;1m2. Calculate Matrix Determinant[0m\n");
+    printf("\033[3;1m3. Calculate Invertible Matrix[0m\n");
+    printf("\033[3;1m4. Calculate Tinh Menh[0m\n");
+    printf("\033[3;1m5. Calculate Vo Chong Compatibility[0m\n");
     printf("Enter your choice: ");
     scanf("%d", &choice);
 
