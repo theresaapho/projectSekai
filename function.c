@@ -148,7 +148,7 @@ void invertible_3x3(int matrix[3][3]) {
     int C22 = (matrix[0][0] * matrix[1][1]) - (matrix[0][1] * matrix[1][0]);
 
     // Ma trận phụ hợp
-    int finmatrix[3][3] = {
+    float finmatrix[3][3] = {
         {C00, C10, C20},
         {C01, C11, C21},
         {C02, C12, C22}
@@ -201,7 +201,7 @@ void invertible_4x4(int matrix[4][4]) {
     int C33 = (matrix[0][0] * matrix[1][1] * matrix[2][2] + matrix[0][1] * matrix[1][2] * matrix[2][0] + matrix[0][2] * matrix[1][0] * matrix[2][1]) - (matrix[0][2] * matrix[1][1] * matrix[2][0] + matrix[0][0] * matrix[1][2] * matrix[2][1] + matrix[0][1] * matrix[1][0] * matrix[2][2]);
 
     // Ma trận phụ hợp
-    int finmatrix[4][4] = {
+    float finmatrix[4][4] = {
         {C00, C10, C20, C30},
         {C01, C11, C21, C31},
         {C02, C12, C22, C32},
