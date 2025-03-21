@@ -1,3 +1,4 @@
+//update 2.0
 #include "function.h"
 #include <stdio.h>
 #include <string.h>
@@ -14,7 +15,7 @@ int TongNam(int namSinh) {
     return sum;
 }
 
-// Hàm từ zo.c
+// Hàm từ zodiac.c
 void zodiac_sign(int day, int month, int year) {
     if ((month == 12 && day >= 22) || (month == 1 && day <= 19)) {
         printf("Your zodiac sign is Capricorn.\n");
@@ -98,18 +99,33 @@ void invertible_2x2(int matrix[2][2]) {
         printf("No invertible matrix\n");
         return;
     }
-    float inv_matrix[2][2] = {
-        {matrix[1][1] / (float)det, -matrix[0][1] / (float)det},
-        {-matrix[1][0] / (float)det, matrix[0][0] / (float)det}
+             
+    int C00 = matrix[1][1];
+    int C01 = - matrix[1][0];
+    int C10 = - matrix[0][1];
+    int C11 = matrix[0][0];
+    // Tính ma trận phụ hợp
+    float finmatrix[2][2] = {
+        {C00, C10},
+        {C01, C11}
     };
-    printf("Invertible matrix:\n");
+    float scalar = 1.0 / det;
+    
     for (int i = 0; i < 2; i++) {
         for (int j = 0; j < 2; j++) {
-            printf("%.2f\t", inv_matrix[i][j]);
+            finmatrix[i][j] *= scalar; //*= là phép toán nhân từng phần tử với scalar
         }
-        printf("\n");
     }
+    //in ma trận nghịch đảo
+    printf("Your invertible matrix is: \n");
+    for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 2; j++) {
+                printf("\033[1;3m%.2f\033[0m\t", finmatrix[i][j]); // "\033" là bắt đầu chuỗi điều khiển ANSI, 1m là in đậm, 3m là in nghiêng, 0m là bay màu.
+            }
+            printf("\n");
+    } 
 }
+
 
 void invertible_3x3(int matrix[3][3]) {
     int det = determinant_3x3(matrix);
@@ -131,20 +147,18 @@ void invertible_3x3(int matrix[3][3]) {
     int C21 = -((matrix[0][0] * matrix[1][2]) - (matrix[0][2] * matrix[1][0]));
     int C22 = (matrix[0][0] * matrix[1][1]) - (matrix[0][1] * matrix[1][0]);
 
-    // Ma trận phụ hợp (adjugate matrix)
-    int adjugate[3][3] = {
+    // Ma trận phụ hợp
+    int finmatrix[3][3] = {
         {C00, C10, C20},
         {C01, C11, C21},
         {C02, C12, C22}
     };
 
-    // Tính ma trận nghịch đảo bằng cách chia từng phần tử của adjugate cho định thức
-    float inv_matrix[3][3];
     float scalar = 1.0 / det;
 
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
-            inv_matrix[i][j] = adjugate[i][j] * scalar;
+            finmatrix[i][j] *= scalar; //*= là phép toán nhân từng phần tử với scalar
         }
     }
 
@@ -152,7 +166,7 @@ void invertible_3x3(int matrix[3][3]) {
     printf("Invertible matrix:\n");
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
-            printf("%.2f\t", inv_matrix[i][j]);
+            printf("\033[1;3m%.2f\033[0m\t", finmatrix[i][j]);  //"\033" là bắt đầu chuỗi điều khiển ANSI, 1m là in đậm, 3m là in nghiêng, 0m là bay màu.
         }
         printf("\n");
     }
@@ -165,7 +179,7 @@ void invertible_4x4(int matrix[4][4]) {
         return;
     }
 
-    // Tính ma trận phụ hợp (adjugate matrix)
+    // Tính ma trận phụ hợp
     int C00 = (matrix[1][1] * matrix[2][2] * matrix[3][3] + matrix[1][2] * matrix[2][3] * matrix[3][1] + matrix[1][3] * matrix[2][1] * matrix[3][2]) - (matrix[1][3] * matrix[2][2] * matrix[3][1] + matrix[1][1] * matrix[2][3] * matrix[3][2] + matrix[1][2] * matrix[2][1] * matrix[3][3]);
     int C01 = (matrix[1][0] * matrix[2][2] * matrix[3][3] + matrix[1][2] * matrix[2][3] * matrix[3][0] + matrix[1][3] * matrix[2][0] * matrix[3][2]) - (matrix[1][3] * matrix[2][2] * matrix[3][0] + matrix[1][0] * matrix[2][3] * matrix[3][2] + matrix[1][2] * matrix[2][0] * matrix[3][3]);
     int C02 = (matrix[1][0] * matrix[2][1] * matrix[3][3] + matrix[1][1] * matrix[2][3] * matrix[3][0] + matrix[1][3] * matrix[2][0] * matrix[3][1]) - (matrix[1][3] * matrix[2][1] * matrix[3][0] + matrix[1][0] * matrix[2][3] * matrix[3][1] + matrix[1][1] * matrix[2][0] * matrix[3][3]);
@@ -186,21 +200,19 @@ void invertible_4x4(int matrix[4][4]) {
     int C32 = (matrix[0][0] * matrix[1][1] * matrix[2][3] + matrix[0][1] * matrix[1][3] * matrix[2][0] + matrix[0][3] * matrix[1][0] * matrix[2][1]) - (matrix[0][3] * matrix[1][1] * matrix[2][0] + matrix[0][0] * matrix[1][3] * matrix[2][1] + matrix[0][1] * matrix[1][0] * matrix[2][3]);
     int C33 = (matrix[0][0] * matrix[1][1] * matrix[2][2] + matrix[0][1] * matrix[1][2] * matrix[2][0] + matrix[0][2] * matrix[1][0] * matrix[2][1]) - (matrix[0][2] * matrix[1][1] * matrix[2][0] + matrix[0][0] * matrix[1][2] * matrix[2][1] + matrix[0][1] * matrix[1][0] * matrix[2][2]);
 
-    // Ma trận phụ hợp (adjugate matrix)
-    int adjugate[4][4] = {
+    // Ma trận phụ hợp
+    int finmatrix[4][4] = {
         {C00, C10, C20, C30},
         {C01, C11, C21, C31},
         {C02, C12, C22, C32},
         {C03, C13, C23, C33}
     };
 
-    // Tính ma trận nghịch đảo bằng cách chia từng phần tử của adjugate cho định thức
-    float inv_matrix[4][4];
     float scalar = 1.0 / det;
 
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
-            inv_matrix[i][j] = adjugate[i][j] * scalar;
+            finmatrix[i][j] *= scalar;
         }
     }
 
@@ -208,7 +220,7 @@ void invertible_4x4(int matrix[4][4]) {
     printf("Invertible matrix:\n");
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
-            printf("%.2f\t", inv_matrix[i][j]);
+            printf("\033[1;3m%.2f\033[0m\t", finmatrix[i][j]);  //"\033" là bắt đầu chuỗi điều khiển ANSI, 1m là in đậm, 3m là in nghiêng, 0m là bay màu.
         }
         printf("\n");
     }
