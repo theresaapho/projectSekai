@@ -1,4 +1,4 @@
-//update 2.0
+//update 3.0
 #include "function.h"
 #include <stdio.h>
 #include <string.h>
@@ -71,25 +71,12 @@ int determinant_3x3(int matrix[3][3]) {
 }
 
 int determinant_4x4(int matrix[4][4]) {
-    int det00 = (matrix[0][1] * matrix[1][2] * matrix[2][3] + matrix[0][2] * matrix[1][3] * matrix[2][1] + matrix[0][3] * matrix[1][1] * matrix[2][2]) - (matrix[0][3] * matrix[1][2] * matrix[2][1] + matrix[0][1] * matrix[1][3] * matrix[2][2] + matrix[0][2] * matrix[1][1] * matrix[2][3]);
-    int det01 = (matrix[0][0] * matrix[1][2] * matrix[2][3] + matrix[0][2] * matrix[1][3] * matrix[2][0] + matrix[0][3] * matrix[1][0] * matrix[2][2]) - (matrix[0][3] * matrix[1][2] * matrix[2][0] + matrix[0][0] * matrix[1][3] * matrix[2][2] + matrix[0][2] * matrix[1][0] * matrix[2][3]);
-    int det02 = (matrix[0][0] * matrix[1][1] * matrix[2][3] + matrix[0][1] * matrix[1][3] * matrix[2][0] + matrix[0][3] * matrix[1][0] * matrix[2][1]) - (matrix[0][3] * matrix[1][1] * matrix[2][0] + matrix[0][0] * matrix[1][3] * matrix[2][1] + matrix[0][1] * matrix[1][0] * matrix[2][3]);
-    int det03 = (matrix[0][0] * matrix[1][1] * matrix[2][2] + matrix[0][1] * matrix[1][2] * matrix[2][0] + matrix[0][2] * matrix[1][0] * matrix[2][1]) - (matrix[0][2] * matrix[1][1] * matrix[2][0] + matrix[0][0] * matrix[1][2] * matrix[2][1] + matrix[0][1] * matrix[1][0] * matrix[2][2]);
+    int det30 = -((matrix[0][1] * matrix[1][2] * matrix[2][3] + matrix[0][2] * matrix[1][3] * matrix[2][1] + matrix[0][3] * matrix[1][1] * matrix[2][2]) - (matrix[0][3] * matrix[1][2] * matrix[2][1] + matrix[0][1] * matrix[1][3] * matrix[2][2] + matrix[0][2] * matrix[1][1] * matrix[2][3]));
+    int det31 = (matrix[0][0] * matrix[1][2] * matrix[2][3] + matrix[0][2] * matrix[1][3] * matrix[2][0] + matrix[0][3] * matrix[1][0] * matrix[2][2]) - (matrix[0][3] * matrix[1][2] * matrix[2][0] + matrix[0][0] * matrix[1][3] * matrix[2][2] + matrix[0][2] * matrix[1][0] * matrix[2][3]);
+    int det32 = -((matrix[0][0] * matrix[1][1] * matrix[2][3] + matrix[0][1] * matrix[1][3] * matrix[2][0] + matrix[0][3] * matrix[1][0] * matrix[2][1]) - (matrix[0][3] * matrix[1][1] * matrix[2][0] + matrix[0][0] * matrix[1][3] * matrix[2][1] + matrix[0][1] * matrix[1][0] * matrix[2][3]));
+    int det33 = (matrix[0][0] * matrix[1][1] * matrix[2][2] + matrix[0][1] * matrix[1][2] * matrix[2][0] + matrix[0][2] * matrix[1][0] * matrix[2][1]) - (matrix[0][2] * matrix[1][1] * matrix[2][0] + matrix[0][0] * matrix[1][2] * matrix[2][1] + matrix[0][1] * matrix[1][0] * matrix[2][2]);
 
-    double base1 = matrix[3][0];
-    double base2 = matrix[3][1];
-    double base3 = matrix[3][2];
-    double base4 = matrix[3][3];
-    double exponent1 = 3;
-    double exponent2 = 4;
-    double exponent3 = 5;
-    double exponent4 = 6;
-    double result1 = pow(base1, exponent1);
-    double result2 = pow(base2, exponent2);
-    double result3 = pow(base3, exponent3);
-    double result4 = pow(base4, exponent4);
-
-    return result1 * det00 + result2 * det01 + result3 * det02 + result4 * det03;
+    return matrix[3][0] * det30 + matrix[3][1] * det31 + matrix[3][2] * det32 + matrix[3][3] * det33;
 }
 
 // Hàm từ invertiblematrix.c
@@ -105,7 +92,7 @@ void invertible_2x2(int matrix[2][2]) {
     int C10 = - matrix[0][1];
     int C11 = matrix[0][0];
     // Tính ma trận phụ hợp
-    float finmatrix[2][2] = {
+    double finmatrix[2][2] = {
         {C00, C10},
         {C01, C11}
     };
@@ -148,10 +135,10 @@ void invertible_3x3(int matrix[3][3]) {
     int C22 = (matrix[0][0] * matrix[1][1]) - (matrix[0][1] * matrix[1][0]);
 
     // Ma trận phụ hợp
-    float finmatrix[3][3] = {
-        {C00, C10, C20},
-        {C01, C11, C21},
-        {C02, C12, C22}
+    double finmatrix[3][3] = {
+        {(float)C00, (float)C10, (float)C20},
+        {(float)C01, (float)C11, (float)C21},
+        {(float)C02, (float)C12, (float)C22}
     };
 
     float scalar = 1.0 / det;
@@ -181,23 +168,23 @@ void invertible_4x4(int matrix[4][4]) {
 
     // Tính ma trận phụ hợp
     int C00 = (matrix[1][1] * matrix[2][2] * matrix[3][3] + matrix[1][2] * matrix[2][3] * matrix[3][1] + matrix[1][3] * matrix[2][1] * matrix[3][2]) - (matrix[1][3] * matrix[2][2] * matrix[3][1] + matrix[1][1] * matrix[2][3] * matrix[3][2] + matrix[1][2] * matrix[2][1] * matrix[3][3]);
-    int C01 = (matrix[1][0] * matrix[2][2] * matrix[3][3] + matrix[1][2] * matrix[2][3] * matrix[3][0] + matrix[1][3] * matrix[2][0] * matrix[3][2]) - (matrix[1][3] * matrix[2][2] * matrix[3][0] + matrix[1][0] * matrix[2][3] * matrix[3][2] + matrix[1][2] * matrix[2][0] * matrix[3][3]);
+    int C01 = -((matrix[1][0] * matrix[2][2] * matrix[3][3] + matrix[1][2] * matrix[2][3] * matrix[3][0] + matrix[1][3] * matrix[2][0] * matrix[3][2]) - (matrix[1][3] * matrix[2][2] * matrix[3][0] + matrix[1][0] * matrix[2][3] * matrix[3][2] + matrix[1][2] * matrix[2][0] * matrix[3][3]));
     int C02 = (matrix[1][0] * matrix[2][1] * matrix[3][3] + matrix[1][1] * matrix[2][3] * matrix[3][0] + matrix[1][3] * matrix[2][0] * matrix[3][1]) - (matrix[1][3] * matrix[2][1] * matrix[3][0] + matrix[1][0] * matrix[2][3] * matrix[3][1] + matrix[1][1] * matrix[2][0] * matrix[3][3]);
-    int C03 = (matrix[1][0] * matrix[2][1] * matrix[3][2] + matrix[1][1] * matrix[2][2] * matrix[3][0] + matrix[1][2] * matrix[2][0] * matrix[3][1]) - (matrix[1][2] * matrix[2][1] * matrix[3][0] + matrix[1][0] * matrix[2][2] * matrix[3][1] + matrix[1][1] * matrix[2][0] * matrix[3][2]);
+    int C03 = -((matrix[1][0] * matrix[2][1] * matrix[3][2] + matrix[1][1] * matrix[2][2] * matrix[3][0] + matrix[1][2] * matrix[2][0] * matrix[3][1]) - (matrix[1][2] * matrix[2][1] * matrix[3][0] + matrix[1][0] * matrix[2][2] * matrix[3][1] + matrix[1][1] * matrix[2][0] * matrix[3][2]));
 
-    int C10 = (matrix[0][1] * matrix[2][2] * matrix[3][3] + matrix[0][2] * matrix[2][3] * matrix[3][1] + matrix[0][3] * matrix[2][1] * matrix[3][2]) - (matrix[0][3] * matrix[2][2] * matrix[3][1] + matrix[0][1] * matrix[2][3] * matrix[3][2] + matrix[0][2] * matrix[2][1] * matrix[3][3]);
+    int C10 = -((matrix[0][1] * matrix[2][2] * matrix[3][3] + matrix[0][2] * matrix[2][3] * matrix[3][1] + matrix[0][3] * matrix[2][1] * matrix[3][2]) - (matrix[0][3] * matrix[2][2] * matrix[3][1] + matrix[0][1] * matrix[2][3] * matrix[3][2] + matrix[0][2] * matrix[2][1] * matrix[3][3]));
     int C11 = (matrix[0][0] * matrix[2][2] * matrix[3][3] + matrix[0][2] * matrix[2][3] * matrix[3][0] + matrix[0][3] * matrix[2][0] * matrix[3][2]) - (matrix[0][3] * matrix[2][2] * matrix[3][0] + matrix[0][0] * matrix[2][3] * matrix[3][2] + matrix[0][2] * matrix[2][0] * matrix[3][3]);
-    int C12 = (matrix[0][0] * matrix[2][1] * matrix[3][3] + matrix[0][1] * matrix[2][3] * matrix[3][0] + matrix[0][3] * matrix[2][0] * matrix[3][1]) - (matrix[0][3] * matrix[2][1] * matrix[3][0] + matrix[0][0] * matrix[2][3] * matrix[3][1] + matrix[0][1] * matrix[2][0] * matrix[3][3]);
+    int C12 = -((matrix[0][0] * matrix[2][1] * matrix[3][3] + matrix[0][1] * matrix[2][3] * matrix[3][0] + matrix[0][3] * matrix[2][0] * matrix[3][1]) - (matrix[0][3] * matrix[2][1] * matrix[3][0] + matrix[0][0] * matrix[2][3] * matrix[3][1] + matrix[0][1] * matrix[2][0] * matrix[3][3]));
     int C13 = (matrix[0][0] * matrix[2][1] * matrix[3][2] + matrix[0][1] * matrix[2][2] * matrix[3][0] + matrix[0][2] * matrix[2][0] * matrix[3][1]) - (matrix[0][2] * matrix[2][1] * matrix[3][0] + matrix[0][0] * matrix[2][2] * matrix[3][1] + matrix[0][1] * matrix[2][0] * matrix[3][2]);
 
     int C20 = (matrix[0][1] * matrix[1][2] * matrix[3][3] + matrix[0][2] * matrix[1][3] * matrix[3][1] + matrix[0][3] * matrix[1][1] * matrix[3][2]) - (matrix[0][3] * matrix[1][2] * matrix[3][1] + matrix[0][1] * matrix[1][3] * matrix[3][2] + matrix[0][2] * matrix[1][1] * matrix[3][3]);
-    int C21 = (matrix[0][0] * matrix[1][2] * matrix[3][3] + matrix[0][2] * matrix[1][3] * matrix[3][0] + matrix[0][3] * matrix[1][0] * matrix[3][2]) - (matrix[0][3] * matrix[1][2] * matrix[3][0] + matrix[0][0] * matrix[1][3] * matrix[3][2] + matrix[0][2] * matrix[1][0] * matrix[3][3]);
+    int C21 = -((matrix[0][0] * matrix[1][2] * matrix[3][3] + matrix[0][2] * matrix[1][3] * matrix[3][0] + matrix[0][3] * matrix[1][0] * matrix[3][2]) - (matrix[0][3] * matrix[1][2] * matrix[3][0] + matrix[0][0] * matrix[1][3] * matrix[3][2] + matrix[0][2] * matrix[1][0] * matrix[3][3]));
     int C22 = (matrix[0][0] * matrix[1][1] * matrix[3][3] + matrix[0][1] * matrix[1][3] * matrix[3][0] + matrix[0][3] * matrix[1][0] * matrix[3][1]) - (matrix[0][3] * matrix[1][1] * matrix[3][0] + matrix[0][0] * matrix[1][3] * matrix[3][1] + matrix[0][1] * matrix[1][0] * matrix[3][3]);
-    int C23 = (matrix[0][0] * matrix[1][1] * matrix[3][2] + matrix[0][1] * matrix[1][2] * matrix[3][0] + matrix[0][2] * matrix[1][0] * matrix[3][1]) - (matrix[0][2] * matrix[1][1] * matrix[3][0] + matrix[0][0] * matrix[1][2] * matrix[3][1] + matrix[0][1] * matrix[1][0] * matrix[3][2]);
+    int C23 = -((matrix[0][0] * matrix[1][1] * matrix[3][2] + matrix[0][1] * matrix[1][2] * matrix[3][0] + matrix[0][2] * matrix[1][0] * matrix[3][1]) - (matrix[0][2] * matrix[1][1] * matrix[3][0] + matrix[0][0] * matrix[1][2] * matrix[3][1] + matrix[0][1] * matrix[1][0] * matrix[3][2]));
 
-    int C30 = (matrix[0][1] * matrix[1][2] * matrix[2][3] + matrix[0][2] * matrix[1][3] * matrix[2][1] + matrix[0][3] * matrix[1][1] * matrix[2][2]) - (matrix[0][3] * matrix[1][2] * matrix[2][1] + matrix[0][1] * matrix[1][3] * matrix[2][2] + matrix[0][2] * matrix[1][1] * matrix[2][3]);
+    int C30 = -((matrix[0][1] * matrix[1][2] * matrix[2][3] + matrix[0][2] * matrix[1][3] * matrix[2][1] + matrix[0][3] * matrix[1][1] * matrix[2][2]) - (matrix[0][3] * matrix[1][2] * matrix[2][1] + matrix[0][1] * matrix[1][3] * matrix[2][2] + matrix[0][2] * matrix[1][1] * matrix[2][3]));
     int C31 = (matrix[0][0] * matrix[1][2] * matrix[2][3] + matrix[0][2] * matrix[1][3] * matrix[2][0] + matrix[0][3] * matrix[1][0] * matrix[2][2]) - (matrix[0][3] * matrix[1][2] * matrix[2][0] + matrix[0][0] * matrix[1][3] * matrix[2][2] + matrix[0][2] * matrix[1][0] * matrix[2][3]);
-    int C32 = (matrix[0][0] * matrix[1][1] * matrix[2][3] + matrix[0][1] * matrix[1][3] * matrix[2][0] + matrix[0][3] * matrix[1][0] * matrix[2][1]) - (matrix[0][3] * matrix[1][1] * matrix[2][0] + matrix[0][0] * matrix[1][3] * matrix[2][1] + matrix[0][1] * matrix[1][0] * matrix[2][3]);
+    int C32 = -((matrix[0][0] * matrix[1][1] * matrix[2][3] + matrix[0][1] * matrix[1][3] * matrix[2][0] + matrix[0][3] * matrix[1][0] * matrix[2][1]) - (matrix[0][3] * matrix[1][1] * matrix[2][0] + matrix[0][0] * matrix[1][3] * matrix[2][1] + matrix[0][1] * matrix[1][0] * matrix[2][3]));
     int C33 = (matrix[0][0] * matrix[1][1] * matrix[2][2] + matrix[0][1] * matrix[1][2] * matrix[2][0] + matrix[0][2] * matrix[1][0] * matrix[2][1]) - (matrix[0][2] * matrix[1][1] * matrix[2][0] + matrix[0][0] * matrix[1][2] * matrix[2][1] + matrix[0][1] * matrix[1][0] * matrix[2][2]);
 
     // Ma trận phụ hợp
