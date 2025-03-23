@@ -3,6 +3,7 @@
 #include <conio.h> // Thư viện cho các hàm điều khiển console trên Windows
 #include <windows.h> // Thư viện để sử dụng các hàm điều khiển console
 
+
 int main() {
     int option;
     printf("Welcome to invertible matrix calculate.\n");
@@ -125,24 +126,13 @@ int main() {
             }
             printf("\n");
         }
-            int det00 = (matrix[0][1] * matrix[1][2] * matrix[2][3] + matrix[0][2] * matrix[1][3] * matrix[2][1] + matrix[0][3] * matrix[1][1] * matrix[2][2]) - (matrix[0][3] * matrix[1][2] * matrix[2][1] + matrix[0][1] * matrix[1][3] * matrix[2][2] + matrix[0][2] * matrix[1][1] * matrix[2][3]);
-            int det01 = (matrix[0][0] * matrix[1][2] * matrix[2][3] + matrix[0][2] * matrix[1][3] * matrix[2][0] + matrix[0][3] * matrix[1][0] * matrix[2][2]) - (matrix[0][3] * matrix[1][2] * matrix[2][0] + matrix[0][0] * matrix[1][3] * matrix[2][2] + matrix[0][2] * matrix[1][0] * matrix[2][3]);
-            int det02 = (matrix[0][0] * matrix[1][1] * matrix[2][3] + matrix[0][1] * matrix[1][3] * matrix[2][0] + matrix[0][3] * matrix[1][0] * matrix[2][1]) - (matrix[0][3] * matrix[1][1] * matrix[2][0] + matrix[0][0] * matrix[1][3] * matrix[2][1] + matrix[0][1] * matrix[1][0] * matrix[2][3]);
-            int det03 = (matrix[0][0] * matrix[1][1] * matrix[2][2] + matrix[0][1] * matrix[1][2] * matrix[2][0] + matrix[0][2] * matrix[1][0] * matrix[2][1]) - (matrix[0][2] * matrix[1][1] * matrix[2][0] + matrix[0][0] * matrix[1][2] * matrix[2][1] + matrix[0][1] * matrix[1][0] * matrix[2][2]);
-        double base1 = matrix[3][0];
-        double base2 = matrix[3][1];
-        double base3 = matrix[3][2];
-        double base4 = matrix[3][3];
-        double exponent1 = 3;
-        double exponent2 = 4;
-        double exponent3 = 5;
-        double exponent4 = 6;
-        double result1 = pow(-1, exponent1);
-        double result2 = pow(-1, exponent2);
-        double result3 = pow(-1, exponent3);
-        double result4 = pow(-1, exponent4);
+        int det30 = -((matrix[0][1] * matrix[1][2] * matrix[2][3] + matrix[0][2] * matrix[1][3] * matrix[2][1] + matrix[0][3] * matrix[1][1] * matrix[2][2]) - (matrix[0][3] * matrix[1][2] * matrix[2][1] + matrix[0][1] * matrix[1][3] * matrix[2][2] + matrix[0][2] * matrix[1][1] * matrix[2][3]));
+        int det31 = (matrix[0][0] * matrix[1][2] * matrix[2][3] + matrix[0][2] * matrix[1][3] * matrix[2][0] + matrix[0][3] * matrix[1][0] * matrix[2][2]) - (matrix[0][3] * matrix[1][2] * matrix[2][0] + matrix[0][0] * matrix[1][3] * matrix[2][2] + matrix[0][2] * matrix[1][0] * matrix[2][3]);
+        int det32 = -((matrix[0][0] * matrix[1][1] * matrix[2][3] + matrix[0][1] * matrix[1][3] * matrix[2][0] + matrix[0][3] * matrix[1][0] * matrix[2][1]) - (matrix[0][3] * matrix[1][1] * matrix[2][0] + matrix[0][0] * matrix[1][3] * matrix[2][1] + matrix[0][1] * matrix[1][0] * matrix[2][3]));
+        int det33 = (matrix[0][0] * matrix[1][1] * matrix[2][2] + matrix[0][1] * matrix[1][2] * matrix[2][0] + matrix[0][2] * matrix[1][0] * matrix[2][1]) - (matrix[0][2] * matrix[1][1] * matrix[2][0] + matrix[0][0] * matrix[1][2] * matrix[2][1] + matrix[0][1] * matrix[1][0] * matrix[2][2]);
+    
 
-        float Determinant4x4 = base1 * result1 * det00 + base2 * result2 * det01 + base3 * result3 * det02 + base4 * result4 * det03;
+    int Determinant4x4 = matrix[3][0] * det30 + matrix[3][1] * det31 + matrix[3][2] * det32 + matrix[3][3] * det33;
         if(Determinant4x4 == 0){
             printf("No invertible matrix");
         }else{
@@ -179,7 +169,7 @@ int main() {
         printf("Your invertible matrix is: \n");
         for (int i = 0; i < 4; i++) {
                 for (int j = 0; j < 4; j++) {
-                    printf("\033[1;3m%.2f\033[0m\t", finmatrix[i][j]); // "\033" là bắt đầu chuỗi điều khiển ANSI, 1m là in đậm, 3m là in nghiêng, 0m là bay màu.
+                    printf("%.2f", finmatrix[i][j]); // "\033" là bắt đầu chuỗi điều khiển ANSI, 1m là in đậm, 3m là in nghiêng, 0m là bay màu.
                 }
                 printf("\n");
             }
