@@ -19,15 +19,10 @@ int main() {
         case 1: {
             //zodiac.c
             int day, month, year;
-            char Surname[50], Middlename[50], Lastname[50];
+            char Middlename[50], Lastname[50];
 
 
-
-            printf("Enter your Surname: ");
-            fgets(Surname, sizeof(Surname), stdin);
-            Surname[strcspn(Surname, "\n")] = '\0'; // Loại bỏ ký tự newline
-
-            printf("Enter your Middle name: ");
+            printf(" ");
             fgets(Middlename, sizeof(Middlename), stdin);
             Middlename[strcspn(Middlename, "\n")] = '\0';
 
@@ -38,7 +33,7 @@ int main() {
             printf("Enter your birthday (DD MM YYYY): ");
             scanf("%d %d %d", &day, &month, &year);
 
-            printf("\nYour name is: %s %s %s\n", Surname, Middlename, Lastname);
+            printf("\nYour name is: %s %s %s\n", Middlename, Lastname);
             printf("Your birthday is: %02d/%02d/%04d\n", day, month, year);
 
             zodiac_sign(day, month, year); // Tính cung hoàng đạo
