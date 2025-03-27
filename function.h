@@ -1,5 +1,6 @@
 #ifndef FUNCTION_H
 #define FUNCTION_H
+//Khi sử dụng quá nhiều lần include trong file header thì dùng ifndef và define để tránh lỗi biên dịch
 
 // Khai báo các hàm từ vochong.c
 int TongNam(int namSinh);
